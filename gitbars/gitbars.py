@@ -101,7 +101,7 @@ def get_log(repo, after, before, reverse=False, fill=False):
     # 2018-01-01 00:00:00|author@author.com
     args = ["git", "log", "--pretty=format:%ai|%ae", "--reverse"]
     if repo:
-        args = args[0] + f"-C {repo}" + args[1:]
+        args = [args[0]] + ["-C", f'{repo}'] + args[1:]
 
     if after:
         args.append("--after=%s" % (after,))
@@ -180,8 +180,8 @@ def main():
     """Invoke the utility."""
     items = []
     try:
-        items = get_log(args.after, args.before, args.reverse, args.fill,
-                        args.repo)
+        items = get_log(args.repo, args.after, args.before, args.reverse,
+                        args.fill)
     except Exception as e:
         print("error running 'git log': %s" % (e,))
         return
